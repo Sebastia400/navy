@@ -23,8 +23,8 @@ void draw_ships(t_variables *var, char **shipsmap, int *info_ship)
         else
             j++;
         if (shipsmap[j][i] != '.') {
-            my_putstr("Wrong ships positions");
-            var->valuereturn = 83;
+            my_putstr("Wrong ships positions2");
+            var->valuereturn = 84;
         }
         shipsmap[j][i] = info_ship[0] + 48;
         k++;
@@ -36,20 +36,17 @@ void external_save_cordinates(t_variables *var, char *buffer, int len)
     var->valuereturn = 0;
     check_pos_info(var, buffer);
     if (buffer[2] < buffer[5]) {
-        if (((buffer[5] - 65) - (buffer[2] - 65)) != buffer[0] - 49) {
-            my_putstr("Wrong ships positions");
-            var->valuereturn = 82;
-        }
+        if (((buffer[5] - 65) - (buffer[2] - 65)) != buffer[0] - 49)
+            var->valuereturn = 84;
         var->hor_ver = 1;
-    } else if (buffer[2] > buffer[5]){
-        if (((buffer[6] - 48) - (buffer[3] - 48)) != buffer[0] - 49) {
-            my_putstr("Wrong ships positions");
-            var->valuereturn = 81;
-        }
+    } else if (buffer[2] > buffer[5]) {
+        if (((buffer[6] - 48) - (buffer[3] - 48)) != buffer[0] - 49)
+            var->valuereturn = 84;
+        var->hor_ver = 1;
+    } else {
+        if ((buffer[0] - 48) != (len + 2))
+            var->valuereturn = 84;
         var->hor_ver = 0;
-    } else if ((buffer[0] - 48) != (len + 2)) {
-        my_putstr("Wrong ships positions");
-        var->valuereturn = 84;
     }
     check_ship_length(var, buffer);
 }
@@ -94,13 +91,10 @@ void create_matrix (char **map)
     int j = 0;
 
     while (i < 8) {
-        map[i] = malloc(sizeof(char)*9);
+        map[i] = malloc(sizeof(char) * 9);
         j = 0;
-        while (j < 8) {
-            map[i][j] = '.';
-            j++;
-        }
-        map[i][j] = '\0';
-        i++;
+        while (j < 8)
+            map[i][j++] = '.';
+        map[i++][j] = '\0';
     }
 }

@@ -67,5 +67,6 @@ int my_ischar(char c);
 int check_if_nbr(char *str);
 void check_ship_length(t_variables *var, char *str);
 void check_pos_info(t_variables *var, char *str);
+void my_pid();
 
 #endif

@@ -25,3 +25,11 @@ void printhelp(void)
     my_putstr("     navy_positions: file representing the positions of");
     my_putstr(" the ships.\n");
 }
+
+void my_pid()
+{
+    global_var->user1_pid = getpid();
+    my_putstr("my_pid: ");
+    my_put_nbr(global_var->user1_pid);
+    my_putstr("\n\n");
+}

@@ -11,8 +11,6 @@ s_var *global_var = NULL;
 
 int principal_program (t_variables *var)
 {
-    int *position_recived = malloc(sizeof(int) * 2);
-
     printmaps(&var);
     while (var->my_counter_num_ships != 0 &&
     var->enemy_counter_num_ships != 0 && var->valuereturn == 0) {
@@ -26,7 +24,6 @@ int principal_program (t_variables *var)
             printmaps(&var);
         }
     }
-    free (position_recived);
     print_result_battle(&var);
     return (var->valuereturn);
 }
@@ -40,11 +37,7 @@ void initialize_var (t_variables *var, int argc, char **argv)
     var->shipsenemymap = malloc(sizeof(char *) * 9);
     var->my_counter_num_ships = 14;
     var->enemy_counter_num_ships = 14;
-    global_var->user1_pid = getpid();
     global_var->signal_bit = malloc(sizeof(int) * 17);
-    my_putstr("my_pid: ");
-    my_put_nbr(global_var->user1_pid);
-    my_putstr("\n\n");
 }
 
 void fs_open_file(t_variables *var)
@@ -69,15 +62,17 @@ void main2(int argc, char **argv, t_variables *var)
     signal(SIGUSR2, &sigusr2);
     fs_open_file(var);
     if (var->valuereturn == 0) {
-        connect(var, i);
         create_matrix(map);
         var->shipsmap = matrix_copy(var->shipsmap, map);
         var->shipsenemymap = matrix_copy(var->shipsenemymap, map);
     }
     if (var->valuereturn == 0)
         save_cordinates(var);
-    if (var->valuereturn == 0)
+    if (var->valuereturn == 0) {
+        my_pid();
+        connect(var, i);
         principal_program(var);
+    }
     free_all(var, map);
 }
 
